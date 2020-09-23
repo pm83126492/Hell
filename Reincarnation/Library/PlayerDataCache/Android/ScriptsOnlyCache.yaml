@@ -12,6 +12,7 @@ ScriptsOnlyBuild:
     - WinCollider
     Cinemachine.dll:
     - Cinemachine.CinemachineBrain
+    - Cinemachine.CinemachineComposer
     - Cinemachine.CinemachineFramingTransposer
     - Cinemachine.CinemachinePipeline
     - Cinemachine.CinemachineVirtualCamera
@@ -322,8 +323,6 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11550}
     - Class: 114
-      Script: {instanceID: 11608}
-    - Class: 114
       Script: {instanceID: 11810}
     - Class: 114
       Script: {instanceID: 11968}
@@ -343,6 +342,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 12908}
     - Class: 114
       Script: {instanceID: 13300}
+    - Class: 114
+      Script: {instanceID: 13368}
     - Class: 114
       Script: {instanceID: 13544}
     - Class: 114
@@ -528,7 +529,7 @@ ScriptsOnlyBuild:
     className: Bloom
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: 93229ef76486a2cdb6aab4485699f398
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Test
@@ -726,7 +727,7 @@ ScriptsOnlyBuild:
     className: Vignette
   - hash:
       serializedVersion: 2
-      Hash: 29ce2e26bd5f2a9c38473cca629c1816
+      Hash: 7e92140c7ccb2fbaff91ecc13ac4192d
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameControllerLV2
