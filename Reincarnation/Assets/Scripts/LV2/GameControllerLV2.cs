@@ -10,16 +10,14 @@ public class GameControllerLV2 : MonoBehaviour
     public ParticleSystem SmokeIce01, SmokeIce02, SmokeIce03;
     public Transform CanButtonPoint, CanButtonPoint02,IcePlateStop;
     public CinemachineVirtualCamera virtualCamera;
-    public Animator BlackAnim;
-    bool isLose;
-    public SmokeParticle smokeParticle;
-
+    public Animator BlackAnim,PlayerAnim;
+    public SmokeParticle smokeParticle01, smokeParticle02, smokeParticle03;
+    public PlayerLV2 player;
     public BlackFade blackFade;
 
     // Start is called before the first frame update
     void Start()
     {
-        isLose = false;
         StartCoroutine(PlaySmokeIce01());
         StartCoroutine(PlaySmokeIce02());
         StartCoroutine(PlaySmokeIce03());
@@ -30,12 +28,6 @@ public class GameControllerLV2 : MonoBehaviour
     {
         LastIceMove();
         Lose();
-        
-    }
-
-    public void Organ()
-    {
-
     }
 
     IEnumerator PlaySmokeIce01()
@@ -67,15 +59,20 @@ public class GameControllerLV2 : MonoBehaviour
             virtualCamera.Follow = null;
         }
 
-        if (Player.transform.position.y <= -150)
+        if (Player.transform.position.y <= -150|| player.CanChangeScene)
         {
             BlackAnim.SetTrigger("FadeOut");
-            isLose = true;
         }
 
-        if (blackFade.CanChangeScene && isLose)
+        if (blackFade.CanChangeScene)
         {
             SceneManager.LoadScene("LV2");
+        }
+
+        if(smokeParticle01.isIceSmoke|| smokeParticle02.isIceSmoke || smokeParticle03.isIceSmoke)
+        {
+            PlayerAnim.SetTrigger("IceSmokeDie");
+            player.enabled = false;
         }
     }
 

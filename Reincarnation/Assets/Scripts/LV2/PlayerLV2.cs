@@ -9,7 +9,7 @@ public class PlayerLV2 : Player
     public GameObject obstacle;
     public GameObject OrganCircle;
 
-  
+    public bool CanChangeScene;
 
     protected override void MobileTouch()
     {
@@ -125,5 +125,21 @@ public class PlayerLV2 : Player
         //organIce = hit2.collider.gameObject;
         //organIce.transform.Translate(0, 0.01f, 0);
         //rigidbody2D.velocity = Vector2.up * JumpForce;
+    }
+
+    public void ReloadScene()
+    {
+        CanChangeScene = true;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("DieObjects"))
+        {
+            GetComponent<BoxCollider2D>().offset = new Vector2(-0.08030701f, -0.04518163f);
+            GetComponent<BoxCollider2D>().size = new Vector2(1.270004f, 0.08324409f);
+            GetComponent<PlayerLV2>().enabled = false;
+            anim.SetTrigger("IceSmokeDie");
+        }
     }
 }
