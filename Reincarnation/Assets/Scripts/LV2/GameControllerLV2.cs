@@ -15,9 +15,12 @@ public class GameControllerLV2 : MonoBehaviour
     public PlayerLV2 player;
     public BlackFade blackFade;
 
+    bool isWin;
+
     // Start is called before the first frame update
     void Start()
     {
+        isWin = false;
         StartCoroutine(PlaySmokeIce01());
         StartCoroutine(PlaySmokeIce02());
         StartCoroutine(PlaySmokeIce03());
@@ -26,6 +29,8 @@ public class GameControllerLV2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CanGoLV3();
+        CameraNotFollow();
         LastIceMove();
         Lose();
     }
@@ -64,7 +69,7 @@ public class GameControllerLV2 : MonoBehaviour
             BlackAnim.SetTrigger("FadeOut");
         }
 
-        if (blackFade.CanChangeScene)
+        if (blackFade.CanChangeScene&&!isWin)
         {
             SceneManager.LoadScene("LV2");
         }
@@ -89,6 +94,28 @@ public class GameControllerLV2 : MonoBehaviour
             {
                 IcePlate.transform.Translate(-1 * Time.deltaTime, 0, 0);
             }
+        }
+    }
+
+    void CameraNotFollow()
+    {
+        if (player.transform.position.x >= 114)
+        {
+            virtualCamera.Follow = null;
+        }
+    }
+
+    void CanGoLV3()
+    {
+        if (player.transform.position.x >= 121)
+        {
+            isWin = true;
+            BlackAnim.SetTrigger("FadeOut");
+        }
+
+        if (blackFade.CanChangeScene && isWin)
+        {
+            SceneManager.LoadScene("LV3");
         }
     }
 }

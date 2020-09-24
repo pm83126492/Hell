@@ -139,7 +139,7 @@ public class GameControllerLV0 : MonoBehaviour
 
             //LeftMove
             case state.LeftMove:
-                player.enabled = true;
+                //player.enabled = true;
                 TeachUI.enabled = true;
                 LeftMoveUI.SetActive(true);
                 CanNotMoveTime += Time.deltaTime;
@@ -151,7 +151,7 @@ public class GameControllerLV0 : MonoBehaviour
 
             //JumpMove
             case state.JumpMove:
-                player.enabled = true;
+                //player.enabled = true;
                 TeachUI.enabled = true;
                 JumpMoveUI.SetActive(true);
                 CanNotMoveTime += Time.deltaTime;
@@ -271,24 +271,24 @@ public class GameControllerLV0 : MonoBehaviour
     IEnumerator TurnRightMoveUI()
     {
         yield return new WaitForSeconds(3);
-        PlayerAnim.SetTrigger("idle");
-        player.enabled = false;
+      //  PlayerAnim.SetTrigger("idle");
+      //  player.enabled = false;
         GameState = state.RightMove;
     }
 
     IEnumerator TurnLeftMoveUI()
     {
         yield return new WaitForSeconds(3);
-        PlayerAnim.SetTrigger("idle");
-        player.enabled = false;
+      //  PlayerAnim.SetTrigger("idle");
+      //  player.enabled = false;
         GameState = state.LeftMove;
     }
 
     IEnumerator TurnJumpMoveUI()
     {
         yield return new WaitForSeconds(3);
-        PlayerAnim.SetTrigger("idle");
-        player.enabled = false;
+       // PlayerAnim.SetTrigger("idle");
+       // player.enabled = false;
         GameState = state.JumpMove;
     }
 

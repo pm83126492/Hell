@@ -427,7 +427,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 111237412}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.13, y: -0.2500677, z: -20.202717}
+  m_LocalPosition: {x: -20.14, y: -0.2500677, z: -20.202717}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1546453066}
@@ -531,7 +531,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 164.53848, y: 37.948196}
+  m_Size: {x: 164.53848, y: 50}
   m_EdgeRadius: 0
 --- !u!114 &131181197
 MonoBehaviour:
@@ -667,7 +667,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 107.35672, y: 29.830523}
+  m_Size: {x: 107.35672, y: 46}
   m_EdgeRadius: 0
 --- !u!114 &166774668
 MonoBehaviour:
@@ -809,7 +809,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 726.81, y: 40.229996}
+  m_AnchoredPosition: {x: 731, y: 40.229996}
   m_SizeDelta: {x: 169.6, y: 44.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &260296493
@@ -869,7 +869,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 164.53848, y: 37.948196}
+  m_Size: {x: 164.53848, y: 50}
   m_EdgeRadius: 0
 --- !u!114 &260296497
 MonoBehaviour:
@@ -2879,7 +2879,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 164.53848, y: 37.948196}
+  m_Size: {x: 164.53848, y: 50}
   m_EdgeRadius: 0
 --- !u!114 &790592012
 MonoBehaviour:
@@ -3535,7 +3535,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.13, y: -0.2500677, z: -20.202717}
+  m_LocalPosition: {x: -20.14, y: -0.2500677, z: -20.202717}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3802,7 +3802,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 107.35672, y: 29.830523}
+  m_Size: {x: 107.35672, y: 46}
   m_EdgeRadius: 0
 --- !u!114 &1008994917
 MonoBehaviour:
@@ -4012,7 +4012,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 164.53848, y: 37.948196}
+  m_Size: {x: 164.53848, y: 50}
   m_EdgeRadius: 0
 --- !u!114 &1077739884
 MonoBehaviour:
@@ -4998,7 +4998,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -275, y: 268}
+  m_AnchoredPosition: {x: -275, y: 278}
   m_SizeDelta: {x: 169.6, y: 44.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1379210560
@@ -5058,7 +5058,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 164.53848, y: 37.948196}
+  m_Size: {x: 164.53848, y: 50}
   m_EdgeRadius: 0
 --- !u!114 &1379210564
 MonoBehaviour:
@@ -5625,7 +5625,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1531614763}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.13, y: -2.5, z: 8.797282}
+  m_LocalPosition: {x: -20.14, y: -2.5, z: 8.797282}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -6302,7 +6302,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 320.3092, y: 42.064888}
+  m_Size: {x: 320.3092, y: 42.06489}
   m_EdgeRadius: 0
 --- !u!114 &1551535123
 MonoBehaviour:
@@ -6426,7 +6426,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 164.53848, y: 37.948196}
+  m_Size: {x: 164.53848, y: 50}
   m_EdgeRadius: 0
 --- !u!114 &1648118431
 MonoBehaviour:
@@ -6793,7 +6793,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 105.62335, y: 34.92749}
+  m_Size: {x: 105.62335, y: 50}
   m_EdgeRadius: 0
 --- !u!114 &1714808707
 MonoBehaviour:
@@ -6929,7 +6929,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 164.53848, y: 37.948196}
+  m_Size: {x: 164.53848, y: 50}
   m_EdgeRadius: 0
 --- !u!114 &1717971220
 MonoBehaviour:
@@ -7065,7 +7065,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 164.53848, y: 37.948196}
+  m_Size: {x: 164.53848, y: 50}
   m_EdgeRadius: 0
 --- !u!114 &1718122010
 MonoBehaviour:
@@ -7201,7 +7201,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 107.35672, y: 29.830523}
+  m_Size: {x: 107.35672, y: 46}
   m_EdgeRadius: 0
 --- !u!114 &1730134453
 MonoBehaviour:
@@ -7780,7 +7780,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 105.62335, y: 34.92749}
+  m_Size: {x: 105.62335, y: 50}
   m_EdgeRadius: 0
 --- !u!114 &1920046570
 MonoBehaviour:
@@ -12866,7 +12866,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -659, y: 28}
+  m_AnchoredPosition: {x: -663, y: 36}
   m_SizeDelta: {x: 109.7, y: 41.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2013756640
@@ -12926,7 +12926,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 107.35672, y: 29.830523}
+  m_Size: {x: 107.35672, y: 46}
   m_EdgeRadius: 0
 --- !u!114 &2013756643
 MonoBehaviour:
@@ -13143,7 +13143,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 105.62335, y: 34.92749}
+  m_Size: {x: 105.62335, y: 50}
   m_EdgeRadius: 0
 --- !u!114 &2031031550
 MonoBehaviour:
@@ -13543,7 +13543,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 613.75, y: 40.229996}
+  m_AnchoredPosition: {x: 624, y: 40.229996}
   m_SizeDelta: {x: 169.6, y: 44.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2144639120
@@ -13640,5 +13640,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 164.53848, y: 37.948196}
+  m_Size: {x: 164.53848, y: 50}
   m_EdgeRadius: 0
