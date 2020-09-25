@@ -57,7 +57,7 @@ public class Player : MonoBehaviour
         anim = GetComponent<Animator>();
         Input.multiTouchEnabled = true;
     }
-    private void Update()
+    protected virtual void Update()
     {
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
         PlayerAnimation();//角色動畫

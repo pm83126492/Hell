@@ -9,6 +9,9 @@ public class PlayerLV2 : Player
     public GameObject obstacle;
     public GameObject OrganCircle;
 
+    public Transform OrganPosition;
+
+    bool isTouchOrgan;
     public bool CanChangeScene;
 
     protected override void MobileTouch()
@@ -81,7 +84,7 @@ public class PlayerLV2 : Player
         {
             if (hit2.collider != null && hit2.collider.gameObject.tag == "organ" && isObstacle)
             {
-                Organ();
+                isTouchOrgan = true;
             }
             if (isObstacle)
             {
@@ -97,6 +100,7 @@ public class PlayerLV2 : Player
             if (organIce != null)
             {
                 organIce.GetComponent<Rigidbody2D>().isKinematic = false;
+                isTouchOrgan = false;
             }
             if (obstacle != null)
             {
@@ -105,6 +109,16 @@ public class PlayerLV2 : Player
                 obstacle.GetComponent<FixedJoint2D>().enabled = false;
                 obstacle = null;
             }
+        }
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        if (isTouchOrgan)
+        {
+            Organ();
         }
     }
 
@@ -119,6 +133,7 @@ public class PlayerLV2 : Player
     //起重冰事件
     void Organ()
     {
+        gameObject.transform.position = OrganPosition.position;
         OrganCircle.transform.Rotate(0, 0, 30 * Time.deltaTime);
         organIce.GetComponent<Rigidbody2D>().isKinematic = true;
         organIce.GetComponent<Rigidbody2D>().velocity = Vector2.up * 1f;
@@ -132,7 +147,7 @@ public class PlayerLV2 : Player
         CanChangeScene = true;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("DieObjects"))
         {
