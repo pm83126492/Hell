@@ -85,7 +85,7 @@ public class GameControllerLV2 : MonoBehaviour
     {
         if (IceOrgan.transform.position.y >= 12)
         {
-            IceOrgan.transform.position = new Vector3(IceOrgan.transform.position.x, 12, IceOrgan.transform.position.z);
+            //IceOrgan.transform.position = new Vector3(IceOrgan.transform.position.x, 12, IceOrgan.transform.position.z);
         }
 
         if (IceButtonBox.transform.position.x >= CanButtonPoint.position.x && IceButtonBox.transform.position.x <= CanButtonPoint02.position.x)

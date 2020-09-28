@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     protected Rigidbody2D rigidbody2D;
     protected Transform player;
     protected Animator anim;
-    public float runSpeed = 200f;
+    public float runSpeed = 250f;
     public float JumpForce = 15f;
     private float horizontalMove;
 
@@ -42,8 +42,8 @@ public class Player : MonoBehaviour
     public float playerWidth = 0.24f;
 
     public float forwardOffset = 0.6f;
-    public float forwardDistance = 0.6f;
-    public float forwardWidth = -0.3f;
+    public float forwardDistance = 1.2f;
+    public float forwardWidth = -0.53f;
     public LayerMask groundLayer;
     public LayerMask obstacleLayer;
    
@@ -232,10 +232,17 @@ public class Player : MonoBehaviour
             rigidbody2D.velocity = new Vector2(0 * Time.deltaTime, rigidbody2D.velocity.y);
         }
         //右移動
-        if ((OneTouchX2 > OneTouchX + 200) || (TwoTouchX2 > TwoTouchX + 200) || Input.GetKey(KeyCode.D))
+        if (((OneTouchX2 > OneTouchX + 200) || (TwoTouchX2 > TwoTouchX + 200) || Input.GetKey(KeyCode.D))&&!isObstacle)
         {
             
             rigidbody2D.velocity = new Vector2(runSpeed * Time.deltaTime, rigidbody2D.velocity.y);
+            transform.rotation = new Quaternion(0, 0, 0, 0);
+        }
+        //右移動
+        if (((OneTouchX2 > OneTouchX + 200) || (TwoTouchX2 > TwoTouchX + 200) || Input.GetKey(KeyCode.D))&&isObstacle)
+        {
+
+            rigidbody2D.velocity = new Vector2(200 * Time.deltaTime, rigidbody2D.velocity.y);
             transform.rotation = new Quaternion(0, 0, 0, 0);
         }
         //左移動

@@ -27,8 +27,18 @@ public class PlayerLV2 : Player
             //第一隻手指放掉瞬間
             if (touch.phase == TouchPhase.Ended)
             {
+                if (obstacle != null)
+                {
+                    anim.SetBool("Push", false);
+                    anim.SetBool("SquatPush", false);
+                    obstacle.GetComponent<Rigidbody2D>().gravityScale = 10;
+                    obstacle.GetComponent<FixedJoint2D>().enabled = false;
+                    obstacle = null;
+                }
                 if (organIce != null)
                 {
+                    anim.enabled = true;
+                    anim.SetBool("Roll", false);
                     organIce.GetComponent<Rigidbody2D>().isKinematic = false;
                 }
             }
@@ -53,6 +63,7 @@ public class PlayerLV2 : Player
                 if (obstacle != null)
                 {
                     anim.SetBool("Push", false);
+                    anim.SetBool("SquatPush", false);
                     obstacle.GetComponent<Rigidbody2D>().gravityScale = 10;
                     obstacle.GetComponent<FixedJoint2D>().enabled = false;
                     obstacle = null;
@@ -66,6 +77,11 @@ public class PlayerLV2 : Player
                     if (hit2.collider != null && hit2.collider.gameObject.tag == "obstacle")
                     {
                         anim.SetBool("Push", true);
+                        Obstacle();
+                    }
+                    else if (hit2.collider != null && hit2.collider.gameObject.tag == "smallobstacle")
+                    {
+                        anim.SetBool("SquatPush", true);
                         Obstacle();
                     }
                 }
@@ -93,18 +109,26 @@ public class PlayerLV2 : Player
                     anim.SetBool("Push", true);
                     Obstacle();
                 }
+                else if (hit2.collider != null && hit2.collider.gameObject.tag == "smallobstacle")
+                {
+                    anim.SetBool("SquatPush", true);
+                    Obstacle();
+                }
             }
         }
         else if (Input.GetKeyUp(KeyCode.E))
         {
             if (organIce != null)
             {
+                anim.enabled = true;
+                anim.SetBool("Roll", false);
                 organIce.GetComponent<Rigidbody2D>().isKinematic = false;
                 isTouchOrgan = false;
             }
             if (obstacle != null)
             {
                 anim.SetBool("Push", false);
+                anim.SetBool("SquatPush", false);
                 obstacle.GetComponent<Rigidbody2D>().gravityScale = 10;
                 obstacle.GetComponent<FixedJoint2D>().enabled = false;
                 obstacle = null;
@@ -120,6 +144,12 @@ public class PlayerLV2 : Player
         {
             Organ();
         }
+
+        if ((OneTouchX2 > OneTouchX + 200) || (TwoTouchX2 > TwoTouchX + 200) || Input.GetKey(KeyCode.D) || OneTouchX2 + 200 < OneTouchX || TwoTouchX2 + 200 < TwoTouchX || Input.GetKey(KeyCode.A))
+        {
+            anim.enabled = true;
+            anim.SetBool("Roll", false);
+        }
     }
 
     //冰障礙物事件
@@ -134,9 +164,19 @@ public class PlayerLV2 : Player
     void Organ()
     {
         gameObject.transform.position = OrganPosition.position;
-        OrganCircle.transform.Rotate(0, 0, 30 * Time.deltaTime);
+        gameObject.transform.rotation = new Quaternion(0, 0, 0, 0);
+        if (organIce.transform.position.y < 12)
+        {
+            OrganCircle.transform.Rotate(0, 0, 100 * Time.deltaTime);
+        }
         organIce.GetComponent<Rigidbody2D>().isKinematic = true;
         organIce.GetComponent<Rigidbody2D>().velocity = Vector2.up * 1f;
+        if (organIce.transform.position.y >= 12)
+        {
+            organIce.transform.position = new Vector3(organIce.transform.position.x, 12, organIce.transform.position.z);
+            anim.enabled = false;
+        }
+        anim.SetBool("Roll", true);
         //organIce = hit2.collider.gameObject;
         //organIce.transform.Translate(0, 0.01f, 0);
         //rigidbody2D.velocity = Vector2.up * JumpForce;
