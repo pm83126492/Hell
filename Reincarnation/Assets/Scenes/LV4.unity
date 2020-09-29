@@ -1656,10 +1656,10 @@ HingeJoint2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1659141821}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   m_EnableCollision: 0
-  m_ConnectedRigidBody: {fileID: 0}
+  m_ConnectedRigidBody: {fileID: 2032819060}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
@@ -1962,6 +1962,7 @@ GameObject:
   - component: {fileID: 2032819058}
   - component: {fileID: 2032819057}
   - component: {fileID: 2032819059}
+  - component: {fileID: 2032819060}
   m_Layer: 12
   m_Name: ice person
   m_TagString: obstacle
@@ -2206,6 +2207,27 @@ PolygonCollider2D:
       - {x: 0.37186104, y: 1.2983624}
       - {x: 0.33404467, y: 1.2983624}
       - {x: 0.2962283, y: 1.2731514}
+--- !u!50 &2032819060
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032819055}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &2084312040
 GameObject:
   m_ObjectHideFlags: 0
@@ -2469,14 +2491,14 @@ MonoBehaviour:
   isJumpButton: 0
   jump2: 0
   isJumpButton2: 0
-  isGround: 0
+  isGround: 1
   isObstacle: 0
   isTouch2: 0
   footOffset: 0
   groundDistance: 0.5
   playerWidth: 0.24
-  forwardOffset: 0.6
-  forwardDistance: 1.2
+  forwardOffset: 1.63
+  forwardDistance: 1.91
   forwardWidth: -0.53
   groundLayer:
     serializedVersion: 2

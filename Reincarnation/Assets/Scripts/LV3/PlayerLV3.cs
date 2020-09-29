@@ -16,12 +16,25 @@ public class PlayerLV3 : Player
             base.Movement();
         }
 
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (isObstacle)
+            {
+                if (hit2.collider != null && hit2.collider.gameObject.tag == "obstacle")
+                {
+                    rigidbody2D.velocity = new Vector2(500 * Time.deltaTime, rigidbody2D.velocity.y);
+                   
+                }
+            }
+        }
+
         if (Input.GetKey(KeyCode.E))
         {
             if (isObstacle)
             {
                 if (hit2.collider != null && hit2.collider.gameObject.tag == "obstacle")
                 {
+                    //rigidbody2D.velocity = new Vector2(runSpeed * Time.deltaTime, rigidbody2D.velocity.y);
                     Obstacle();
                 }
             }
@@ -30,12 +43,23 @@ public class PlayerLV3 : Player
         {
             if (obstacle != null)
             {
+                rigidbody2D.velocity = new Vector2(300 * Time.deltaTime, rigidbody2D.velocity.y);
                 distanceJoint.enabled = false;
-                isSwing = false;
-                GetComponent<Rigidbody2D>().gravityScale = 5;
                 obstacle = null;
             }
         }
+
+        if (isGround)
+        {
+            isSwing = false;
+            GetComponent<Rigidbody2D>().gravityScale = 5;
+        }
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+       
     }
 
     void Obstacle()
