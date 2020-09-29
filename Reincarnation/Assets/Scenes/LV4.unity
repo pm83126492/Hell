@@ -1656,10 +1656,10 @@ HingeJoint2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1659141821}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_EnableCollision: 0
-  m_ConnectedRigidBody: {fileID: 2032819056}
+  m_ConnectedRigidBody: {fileID: 0}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
@@ -1961,7 +1961,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2032819058}
   - component: {fileID: 2032819057}
-  - component: {fileID: 2032819056}
   - component: {fileID: 2032819059}
   m_Layer: 12
   m_Name: ice person
@@ -1970,27 +1969,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!50 &2032819056
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2032819055}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!212 &2032819057
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2062,10 +2040,10 @@ PolygonCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2032819055}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -2453,6 +2431,7 @@ GameObject:
   - component: {fileID: 3701154132634879122}
   - component: {fileID: 3701154132634879125}
   - component: {fileID: 3701154132634879118}
+  - component: {fileID: 3701154132634879119}
   m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
@@ -2506,6 +2485,27 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   obstacle: {fileID: 2032819055}
+  point: {fileID: 1659141825}
+  distanceJoint: {fileID: 3701154132634879119}
+--- !u!232 &3701154132634879119
+DistanceJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3701154132634879117}
+  m_Enabled: 0
+  serializedVersion: 4
+  m_EnableCollision: 1
+  m_ConnectedRigidBody: {fileID: 0}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_AutoConfigureConnectedAnchor: 0
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: 0, y: 0}
+  m_AutoConfigureDistance: 1
+  m_Distance: 40.690342
+  m_MaxDistanceOnly: 0
 --- !u!50 &3701154132634879122
 Rigidbody2D:
   serializedVersion: 4

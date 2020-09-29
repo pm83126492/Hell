@@ -5,10 +5,16 @@ using UnityEngine;
 public class PlayerLV3 : Player
 {
     public GameObject obstacle;
+    public Transform point;
+    public DistanceJoint2D distanceJoint;
+    bool isSwing;
 
     protected override void Movement()
     {
-        base.Movement();
+        if (!isSwing)
+        {
+            base.Movement();
+        }
 
         if (Input.GetKey(KeyCode.E))
         {
@@ -24,8 +30,9 @@ public class PlayerLV3 : Player
         {
             if (obstacle != null)
             {
-                transform.parent = null;
-                GetComponent<Rigidbody2D>().isKinematic = false;
+                distanceJoint.enabled = false;
+                isSwing = false;
+                GetComponent<Rigidbody2D>().gravityScale = 5;
                 obstacle = null;
             }
         }
@@ -34,9 +41,10 @@ public class PlayerLV3 : Player
     void Obstacle()
     {
         obstacle = hit2.collider.gameObject;
-        transform.parent = obstacle.transform;
-        GetComponent<Rigidbody2D>().isKinematic = true;
-        GetComponent<FixedJoint2D>().enabled = true;
+        isSwing = true;
+        GetComponent<Rigidbody2D>().gravityScale = 3;
+        distanceJoint.enabled = true;
+        distanceJoint.connectedAnchor = new Vector2(point.position.x, point.position.y);
         //obstacle.GetComponent<FixedJoint2D>().connectedBody = this.GetComponent<Rigidbody2D>();
     }
 }
