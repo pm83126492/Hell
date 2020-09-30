@@ -12,6 +12,7 @@ TagManager:
   - IceButton
   - DieObjects
   - smallobstacle
+  - Swing
   layers:
   - Default
   - TransparentFX

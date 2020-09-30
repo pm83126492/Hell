@@ -7,7 +7,7 @@ public class PlayerLV3 : Player
     public GameObject obstacle;
     public Transform point;
     public DistanceJoint2D distanceJoint;
-    bool isSwing;
+    public bool isSwing;
 
     protected override void Movement()
     {
@@ -20,9 +20,16 @@ public class PlayerLV3 : Player
         {
             if (isObstacle)
             {
-                if (hit2.collider != null && hit2.collider.gameObject.tag == "obstacle")
+                if (hit2.collider != null && hit2.collider.gameObject.tag == "Swing")
                 {
-                    rigidbody2D.velocity = new Vector2(500 * Time.deltaTime, rigidbody2D.velocity.y);
+                    if (rigidbody2D.velocity.x > 0)
+                    {
+                        rigidbody2D.velocity = new Vector2(500 * Time.deltaTime, rigidbody2D.velocity.y);
+                    }
+                    else if(rigidbody2D.velocity.x < 0)
+                    {
+                        rigidbody2D.velocity = new Vector2(-500 * Time.deltaTime, rigidbody2D.velocity.y);
+                    }
                    
                 }
             }
@@ -32,9 +39,10 @@ public class PlayerLV3 : Player
         {
             if (isObstacle)
             {
-                if (hit2.collider != null && hit2.collider.gameObject.tag == "obstacle")
+                if (hit2.collider != null && hit2.collider.gameObject.tag == "Swing")
                 {
                     //rigidbody2D.velocity = new Vector2(runSpeed * Time.deltaTime, rigidbody2D.velocity.y);
+                    isSwing = true;
                     Obstacle();
                 }
             }
@@ -43,7 +51,6 @@ public class PlayerLV3 : Player
         {
             if (obstacle != null)
             {
-                rigidbody2D.velocity = new Vector2(300 * Time.deltaTime, rigidbody2D.velocity.y);
                 distanceJoint.enabled = false;
                 obstacle = null;
             }
@@ -65,7 +72,6 @@ public class PlayerLV3 : Player
     void Obstacle()
     {
         obstacle = hit2.collider.gameObject;
-        isSwing = true;
         GetComponent<Rigidbody2D>().gravityScale = 3;
         distanceJoint.enabled = true;
         distanceJoint.connectedAnchor = new Vector2(point.position.x, point.position.y);
