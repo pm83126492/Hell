@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameControllerLV2 : MonoBehaviour
 {
-    public GameObject IceOrgan, IceButtonBox, IcePlate,Player;
+    public GameObject IceOrgan, IceButtonBox, IcePlate,Player,IceBig;
     public ParticleSystem SmokeIce01, SmokeIce02, SmokeIce03;
     public Transform CanButtonPoint, CanButtonPoint02,IcePlateStop;
     public CinemachineVirtualCamera virtualCamera;
@@ -14,7 +14,7 @@ public class GameControllerLV2 : MonoBehaviour
     public SmokeParticle smokeParticle01, smokeParticle02, smokeParticle03;
     public PlayerLV2 player;
     public BlackFade blackFade;
-
+    public Collider2D collider2d;
     bool isWin;
 
     // Start is called before the first frame update
@@ -33,6 +33,11 @@ public class GameControllerLV2 : MonoBehaviour
         CameraNotFollow();
         LastIceMove();
         Lose();
+
+        if (IceBig.transform.localPosition.x >= 111)
+        {
+            collider2d.enabled = false;
+        }
     }
 
     IEnumerator PlaySmokeIce01()
@@ -99,7 +104,7 @@ public class GameControllerLV2 : MonoBehaviour
 
     void CameraNotFollow()
     {
-        if (player.transform.position.x >= 114)
+        if (player.transform.position.x >= 119)
         {
             virtualCamera.Follow = null;
         }
@@ -107,7 +112,7 @@ public class GameControllerLV2 : MonoBehaviour
 
     void CanGoLV3()
     {
-        if (player.transform.position.x >= 121)
+        if (player.transform.position.x >= 125)
         {
             isWin = true;
             BlackAnim.SetTrigger("FadeOut");

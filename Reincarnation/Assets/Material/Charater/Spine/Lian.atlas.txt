@@ -4,6 +4,13 @@ size: 1024,1024
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+handle
+  rotate: false
+  xy: 538, 44
+  size: 148, 148
+  orig: 148, 148
+  offset: 0, 0
+  index: -1
 no_stick_left-arm
   rotate: false
   xy: 901, 454

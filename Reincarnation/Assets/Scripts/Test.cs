@@ -10,7 +10,7 @@ public class Test : MonoBehaviour
     void Update()
     {
         Vector3 v = (target.position - transform.position).normalized;
-        transform.right = v;
+        transform.up = v;
     }
 }
 
