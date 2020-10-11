@@ -5,10 +5,11 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     protected Rigidbody2D rigidbody2D;
+    protected BoxCollider2D boxCollider2D;
     protected Transform player;
     protected Animator anim;
     public float runSpeed = 250f;
-    public float JumpForce = 15f;
+    public float JumpForce = 13f;
     private float horizontalMove;
 
     public bool isNotStop;
@@ -26,6 +27,12 @@ public class Player : MonoBehaviour
     public float TwoTouchY;
     public float TwoTouchY2;
 
+    public float ThreeTouchX;
+    public float ThreeTouchX2;
+
+    public float ThreeTouchY;
+    public float ThreeTouchY2;
+
     public float intervals = 0.1f;//間隔時間
     public float intervals2 = 0.1f;//間隔時間
 
@@ -33,9 +40,13 @@ public class Player : MonoBehaviour
     public bool isJumpButton;
     public bool jump2;
     public bool isJumpButton2;
+    public bool jump3;
+    public bool isJumpButton3;
     public bool isGround;
     public bool isObstacle;
     public bool isTouch2;
+    public bool isTouch3;
+    public bool isSlide;
 
     public float footOffset = 0;
     public float groundDistance = 0.5f;
@@ -54,6 +65,7 @@ public class Player : MonoBehaviour
         GetComponent<MeshRenderer>().sortingOrder = 40;
         player = GetComponent<Transform>();
         rigidbody2D = GetComponent<Rigidbody2D>();
+        boxCollider2D = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
         Input.multiTouchEnabled = true;
     }
@@ -71,35 +83,18 @@ public class Player : MonoBehaviour
             rigidbody2D.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
         }
 
-        /*if (Input.GetKey(KeyCode.E))
+        if (Input.GetKey(KeyCode.S))
         {
-             if (hit2.collider != null && hit2.collider.gameObject.tag == "organ" && isObstacle)
-             {
-                 Organ();
-             }
-            if (isObstacle)
-            {
-                if (hit2.collider != null && hit2.collider.gameObject.tag == "obstacle")
-                {
-                    anim.SetBool("Push", true);
-                    Obstacle();
-                }
-            }
+            anim.SetBool("Slide", true);
+            boxCollider2D.offset = new Vector2(-0.08030701f, 0.25f);
+            boxCollider2D.size = new Vector2(1.270004f, 0.6733987f);
         }
-        else if (Input.GetKeyUp(KeyCode.E))
+        else if (Input.GetKeyUp(KeyCode.S))
         {
-            if (organIce != null)
-            {
-                organIce.GetComponent<Rigidbody2D>().isKinematic = false;
-            }
-            if (obstacle != null)
-            {
-                anim.SetBool("Push", false);
-                obstacle.GetComponent<Rigidbody2D>().gravityScale = 10;
-                obstacle.GetComponent<FixedJoint2D>().enabled = false;
-                obstacle = null;
-            }
-        }*/
+            anim.SetBool("Slide", false);
+            boxCollider2D.offset = new Vector2(-0.08030701f, 1.668559f);
+            boxCollider2D.size = new Vector2(1.270004f, 3.510725f);
+        }
 
         //判斷到地面上停止
         if (isNotStop && isGround)
@@ -163,7 +158,7 @@ public class Player : MonoBehaviour
                 intervals = 0.1f;
                 if (isGround)
                 {
-                    OneTouchX = OneTouchX2 = TwoTouchX = TwoTouchX2 = 0;
+                    OneTouchX = OneTouchX2 = TwoTouchX = TwoTouchX2 = TwoTouchY = TwoTouchY2 = 0;
                 }
                 else if (!isGround)
                 {
@@ -171,6 +166,10 @@ public class Player : MonoBehaviour
                 }
 
                 isJumpButton = false;
+                if (isJumpButton2)
+                {
+                    isJumpButton2 = false;
+                }
             }
         }
 
@@ -179,6 +178,10 @@ public class Player : MonoBehaviour
         {
             isTouch2 = true;
             Touch touch2 = Input.GetTouch(1);
+            Touch touch1 = Input.GetTouch(0);
+
+            
+
             //第二隻手指按下瞬間
             if (touch2.phase == TouchPhase.Began)
             {
@@ -205,20 +208,75 @@ public class Player : MonoBehaviour
             {
                 if (isGround)
                 {
-                    TwoTouchX = TwoTouchX2 = 0;
+                    TwoTouchX = TwoTouchX2 = TwoTouchY = TwoTouchY2 = 0;
                 }
                 else if (!isGround)
                 {
                     isNotStop2 = true;
                 }
-                
+                isSlide = false;
+                anim.SetBool("Slide", false);
 
                 intervals2 = 0.1f;
                 isJumpButton2 = false;
             }
+
+            if (touch1.phase == TouchPhase.Began)
+            {
+                ThreeTouchY = touch1.position.y;
+                ThreeTouchY2 = touch1.position.y;
+                isTouch3 = true;
+            }
+            if (touch1.phase == TouchPhase.Moved&&isTouch3)
+            {
+                if (!isJumpButton3)
+                {
+                    ThreeTouchY2 = touch1.position.y;
+                    if (ThreeTouchY + 150 < ThreeTouchY2)
+                    {
+                        isJumpButton3 = true;
+                    }
+                }
+            }
+            if (touch1.phase == TouchPhase.Ended)
+            {
+                if (isGround)
+                {
+                    ThreeTouchY = ThreeTouchY2 = 0;
+                }
+                isJumpButton3 = false;
+                isSlide = false;
+                anim.SetBool("Slide", false);
+                isTouch3 = false;
+            }
         }
+
+        if ((TwoTouchY > TwoTouchY2 + 150|| ThreeTouchY > ThreeTouchY2 + 150) && rigidbody2D.velocity.x != 0)
+        {
+            isSlide = true;
+        }
+
+        if (isSlide)
+        {
+            anim.SetBool("Slide", true);
+            boxCollider2D.offset = new Vector2(-0.08030701f, 0.25f);
+            boxCollider2D.size = new Vector2(1.270004f, 0.6733987f);
+        }
+        else
+        {
+            anim.SetBool("Slide", false);
+            boxCollider2D.offset = new Vector2(-0.08030701f, 1.668559f);
+            boxCollider2D.size = new Vector2(1.270004f, 3.510725f);
+        }
+
+        if (rigidbody2D.velocity.x == 0)
+        {
+            isSlide = false;
+            anim.SetBool("Slide", false);
+        }
+
         //判斷是否跳
-        if ((OneTouchY + 150 < OneTouchY2 || TwoTouchY + 150 < TwoTouchY2) && !jump)
+        if ((OneTouchY + 150 < OneTouchY2 || TwoTouchY + 150 < TwoTouchY2||ThreeTouchY+150<ThreeTouchY2) && !jump)
         {
             jump = true;
         }
@@ -261,6 +319,8 @@ public class Player : MonoBehaviour
             OneTouchY2 = 0;
             TwoTouchY = 0;
             TwoTouchY2 = 0;
+            ThreeTouchY = 0;
+            ThreeTouchY2 = 0;
             isGround = false;
             jump = false;
         }
@@ -313,4 +373,5 @@ public class Player : MonoBehaviour
             isObstacle = false;
         }
     }
+
 }

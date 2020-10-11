@@ -5,56 +5,238 @@ using UnityEngine;
 public class PlayerLV3 : Player
 {
     public GameObject obstacle;
-    public Transform point,point2;
-    public DistanceJoint2D distanceJoint;
-    public DistanceJoint2D hingeJoint;
-    public DistanceJoint2D hingeJoint2;
-    public DistanceJoint2D hingeJoint3;
-    public bool isSwing,isSwingJimp;
+    public Transform Hookpoint, Hookpoint2, Hookpoint3, Hookpoint4;
+    public DistanceJoint2D PlayerJoint, HookJoint, HookJoint2, HookJoint3, HookJoint4;
+    public bool isSwing,isSwingJump,isSwing2,isSwingJump2;
+
+    public float SwingSpeed = 5;
+    public float SwingJumpSpeed = 2;
 
     protected override void Movement()
     {
-        if (!isSwing && !isSwingJimp)
+        if ((!isSwing && !isSwingJump)&& (!isSwing2 && !isSwingJump2))
         {
             base.Movement();
         }  
+    }
+
+    protected override void MobileTouch()
+    {
+        base.MobileTouch();
+        //第一隻手指
+        if (Input.touchCount == 1)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            //第一隻手指放掉瞬間
+            if (touch.phase == TouchPhase.Began)
+            {
+                if (!isSwing)
+                {
+                    if (hit2.collider != null && (hit2.collider.gameObject.tag == "Swing" || hit2.collider.gameObject.tag == "Swing2" || hit2.collider.gameObject.tag == "Swing3" || hit2.collider.gameObject.tag == "Swing4"))
+                    {
+                        anim.SetBool("Swing", true);
+                        obstacle = hit2.collider.gameObject;
+                        transform.position = new Vector3(obstacle.transform.position.x, 5, transform.position.z);
+                        if (rigidbody2D.velocity.x > 0)
+                        {
+                            rigidbody2D.velocity = Vector2.right * SwingSpeed;
+                            isSwing = true;
+                        }
+                        else if (rigidbody2D.velocity.x < 0)
+                        {
+                            rigidbody2D.velocity = Vector2.left * SwingSpeed;
+                            isSwing = true;
+                        }
+                    }
+                }
+            }
+
+            if (touch.phase == TouchPhase.Ended)
+            {
+                if (isSwing)
+                {
+                    GetComponent<Rigidbody2D>().gravityScale = 1;
+
+                    if (rigidbody2D.velocity.x > 0 && rigidbody2D.velocity.x < 4 && rigidbody2D.velocity.y > 0)
+                    {
+                        rigidbody2D.velocity = new Vector2(SwingSpeed, SwingJumpSpeed);
+                    }
+                    else if (rigidbody2D.velocity.x < 0 && rigidbody2D.velocity.x > -4 && rigidbody2D.velocity.y > 0)
+                    {
+                        rigidbody2D.velocity = new Vector2(-SwingSpeed, SwingJumpSpeed);
+                    }
+                    if (obstacle != null)
+                    {
+                        isSwingJump = true;
+                        obstacle.transform.parent = null;
+                        obstacle.GetComponent<Rigidbody2D>().isKinematic = false;
+                        PlayerJoint.enabled = false;
+                        obstacle = null;
+                        isSwing = false;
+                    }
+                    transform.rotation = new Quaternion(0, 0, 0, 0);
+                    anim.SetBool("Swing", false);
+                }
+                else if(isSwing2)
+                {
+                    GetComponent<Rigidbody2D>().gravityScale = 1;
+                    if (rigidbody2D.velocity.x > 0 && rigidbody2D.velocity.x < 4 && rigidbody2D.velocity.y > 0)
+                    {
+                        rigidbody2D.velocity = new Vector2(SwingSpeed, SwingJumpSpeed);
+                    }
+                    else if (rigidbody2D.velocity.x < 0 && rigidbody2D.velocity.x > -4 && rigidbody2D.velocity.y > 0)
+                    {
+                        rigidbody2D.velocity = new Vector2(-SwingSpeed, SwingJumpSpeed);
+                    }
+                    if (obstacle != null)
+                    {
+                        isSwingJump2 = true;
+                        obstacle.transform.parent = null;
+                        obstacle.GetComponent<Rigidbody2D>().isKinematic = false;
+                        PlayerJoint.enabled = false;
+                        obstacle = null;
+                        isSwing2 = false;
+                    }
+                    transform.rotation = new Quaternion(0, 0, 0, 0);
+                    anim.SetBool("Swing", false);
+                }
+            }    
+        }
+
+        //第二隻手指     
+        if (Input.touchCount > 1)
+        {
+            Touch touch2 = Input.GetTouch(1);
+            Touch touch1 = Input.GetTouch(0);
+
+            if(touch1.phase == TouchPhase.Began)
+            {
+                if (!isSwing2)
+                {
+                    if (hit2.collider != null && (hit2.collider.gameObject.tag == "Swing" || hit2.collider.gameObject.tag == "Swing2" || hit2.collider.gameObject.tag == "Swing3" || hit2.collider.gameObject.tag == "Swing4"))
+                    {
+                        anim.SetBool("Swing", true);
+                        obstacle = hit2.collider.gameObject;
+                        transform.position = new Vector3(obstacle.transform.position.x, 5, transform.position.z);
+                        if (rigidbody2D.velocity.x > 0)
+                        {
+                            rigidbody2D.velocity = Vector2.right * SwingSpeed;
+                            isSwing2 = true;
+                        }
+                        else if (rigidbody2D.velocity.x < 0)
+                        {
+                            rigidbody2D.velocity = Vector2.left * SwingSpeed;
+                            isSwing2 = true;
+                        }
+                        OneTouchX = OneTouchX2 = 0;
+                    }
+                }
+            }
+
+            if (touch1.phase == TouchPhase.Ended)
+            {
+                if (isSwing2)
+                {
+                    GetComponent<Rigidbody2D>().gravityScale = 1;
+                    if (rigidbody2D.velocity.x > 0 && rigidbody2D.velocity.x < 4 && rigidbody2D.velocity.y > 0)
+                    {
+                        rigidbody2D.velocity = new Vector2(SwingSpeed, SwingJumpSpeed);
+                    }
+                    else if (rigidbody2D.velocity.x < 0 && rigidbody2D.velocity.x > -4 && rigidbody2D.velocity.y > 0)
+                    {
+                        rigidbody2D.velocity = new Vector2(-SwingSpeed, SwingJumpSpeed);
+                    }
+                    if (obstacle != null)
+                    {
+                        isSwingJump2 = true;
+                        obstacle.transform.parent = null;
+                        obstacle.GetComponent<Rigidbody2D>().isKinematic = false;
+                        PlayerJoint.enabled = false;
+                        obstacle = null;
+                        isSwing2 = false;
+                    }
+                    transform.rotation = new Quaternion(0, 0, 0, 0);
+                    anim.SetBool("Swing", false);
+                }
+            }
+            //第二隻手指放掉瞬間
+            if (touch2.phase == TouchPhase.Began)
+            {
+                if (!isSwing)
+                {
+                    if (hit2.collider != null && (hit2.collider.gameObject.tag == "Swing" || hit2.collider.gameObject.tag == "Swing2" || hit2.collider.gameObject.tag == "Swing3" || hit2.collider.gameObject.tag == "Swing4"))
+                    {
+                        anim.SetBool("Swing", true);
+                        obstacle = hit2.collider.gameObject;
+                        transform.position = new Vector3(obstacle.transform.position.x, 5, transform.position.z);
+                        if (rigidbody2D.velocity.x > 0)
+                        {
+                            rigidbody2D.velocity = Vector2.right * SwingSpeed;
+                            isSwing = true;
+                        }
+                        else if (rigidbody2D.velocity.x < 0)
+                        {
+                            rigidbody2D.velocity = Vector2.left * SwingSpeed;
+                            isSwing = true;
+                        }
+                    }
+                }
+            }
+
+            if (touch2.phase == TouchPhase.Ended)
+            {
+                if (isSwing)
+                {
+                    GetComponent<Rigidbody2D>().gravityScale = 1;
+                    if (rigidbody2D.velocity.x > 0 && rigidbody2D.velocity.x < 4 && rigidbody2D.velocity.y > 0)
+                    {
+                        rigidbody2D.velocity = new Vector2(SwingSpeed, SwingJumpSpeed);
+                    }
+                    else if (rigidbody2D.velocity.x < 0 && rigidbody2D.velocity.x > -4 && rigidbody2D.velocity.y > 0)
+                    {
+                        rigidbody2D.velocity = new Vector2(-SwingSpeed, SwingJumpSpeed);
+                    }
+                    if (obstacle != null)
+                    {
+                        isSwingJump = true;
+                        obstacle.transform.parent = null;
+                        obstacle.GetComponent<Rigidbody2D>().isKinematic = false;
+                        PlayerJoint.enabled = false;
+                        obstacle = null;
+                        isSwing = false;
+                    }
+                    transform.rotation = new Quaternion(0, 0, 0, 0);
+                    anim.SetBool("Swing", false);
+                }
+            }
+
+        }
     }
 
     protected override void Update()
     {
         base.Update();
 
-        if (isSwing)
-        {
-            if (isObstacle)
-            {
-                if (hit2.collider != null && hit2.collider.gameObject.tag == "Swing")
-                {
-                    distanceJoint.connectedAnchor = new Vector2(point.position.x, point.position.y);
-                    Obstacle();
-                }
-                else if (hit2.collider != null && hit2.collider.gameObject.tag == "Swing2")
-                {
-                    distanceJoint.connectedAnchor = new Vector2(point2.position.x, point2.position.y);
-                    Obstacle();
-                }
-            }
-        }
-
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (isObstacle)
+            if (!isSwing)
             {
-                if (hit2.collider != null && (hit2.collider.gameObject.tag == "Swing" || hit2.collider.gameObject.tag == "Swing2"))
+                if (hit2.collider != null && (hit2.collider.gameObject.tag == "Swing" || hit2.collider.gameObject.tag == "Swing2" || hit2.collider.gameObject.tag == "Swing3" || hit2.collider.gameObject.tag == "Swing4"))
                 {
-                    isSwing = true;
+                    obstacle = hit2.collider.gameObject;
+                    transform.position = new Vector3(obstacle.transform.position.x, 5, transform.position.z);
                     if (rigidbody2D.velocity.x > 0)
                     {
-                        rigidbody2D.velocity = new Vector2(300 * Time.deltaTime, rigidbody2D.velocity.y);
+                        //anim.SetBool("SwingRight", true);
+                        rigidbody2D.velocity = Vector2.right* SwingSpeed;
+                        isSwing = true;
                     }
                     else if (rigidbody2D.velocity.x < 0)
                     {
-                        rigidbody2D.velocity = new Vector2(-300 * Time.deltaTime, rigidbody2D.velocity.y);
+                        //anim.SetBool("SwingLeft", true);
+                        rigidbody2D.velocity = Vector2.left * SwingSpeed;
+                        isSwing = true;
                     }
                 }
             }
@@ -62,41 +244,90 @@ public class PlayerLV3 : Player
 
         if (Input.GetKeyUp(KeyCode.E))
         {
-            GetComponent<Rigidbody2D>().gravityScale = 1;
-            if (obstacle != null)
+            if (isSwing)
             {
-                isSwing = false;
-                isSwingJimp = true;
-                obstacle.transform.parent = null;
-                obstacle.GetComponent<Rigidbody2D>().isKinematic = false;
-                distanceJoint.enabled = false;
-                obstacle = null;
-            }
-            if (rigidbody2D.velocity.x > 0)
-            {
-                rigidbody2D.velocity = new Vector2(300 * Time.deltaTime, rigidbody2D.velocity.y);
-            }
-            else if (rigidbody2D.velocity.x < 0)
-            {
-                rigidbody2D.velocity = new Vector2(-300 * Time.deltaTime, rigidbody2D.velocity.y);
+                GetComponent<Rigidbody2D>().gravityScale = 1;
+                if (rigidbody2D.velocity.x > 0 && rigidbody2D.velocity.x < 4&& rigidbody2D.velocity.y>0)
+                {
+                    rigidbody2D.velocity = new Vector2(SwingSpeed, SwingJumpSpeed);
+                }
+                else if (rigidbody2D.velocity.x < 0 && rigidbody2D.velocity.x > -4 && rigidbody2D.velocity.y > 0)
+                {
+                    rigidbody2D.velocity = new Vector2(-SwingSpeed, SwingJumpSpeed);
+                }
+                if (obstacle != null)
+                {
+                    isSwingJump = true;
+                    obstacle.transform.parent = null;
+                    obstacle.GetComponent<Rigidbody2D>().isKinematic = false;
+                    PlayerJoint.enabled = false;
+                    obstacle = null;
+                    isSwing = false;
+                }
+                //anim.SetBool("SwingRight", false);
+                //anim.SetBool("SwingLeft", false);
+                if (rigidbody2D.velocity.x > 0)
+                {
+                    transform.rotation = new Quaternion(0, 0, 0, 0);
+                }
+                else
+                {
+                    transform.rotation = new Quaternion(0, 180, 0, 0);
+                }
             }
         }
 
         if (isGround)
         {
             GetComponent<Rigidbody2D>().gravityScale = 3;
-            isSwingJimp = false;
+            isSwingJump = false;
+            isSwingJump2 = false;
         }
 
-        hingeJoint.distance = 4.5f;
-        hingeJoint2.distance = 4.5f;
+        HookJoint.distance = HookJoint2.distance = HookJoint3.distance = HookJoint4.distance = 2.55f;
+
+
+        if (isSwing||isSwing2)
+        {
+            if (isObstacle)
+            {
+                if (hit2.collider != null && hit2.collider.gameObject.tag == "Swing")
+                {
+                    PlayerJoint.connectedAnchor = new Vector2(Hookpoint.position.x, Hookpoint.position.y);
+                    Vector3 v = (Hookpoint.position - transform.position).normalized;
+                    transform.up = v;
+                    Obstacle();
+                }
+                else if (hit2.collider != null && hit2.collider.gameObject.tag == "Swing2")
+                {
+                    PlayerJoint.connectedAnchor = new Vector2(Hookpoint2.position.x, Hookpoint2.position.y);
+                    Vector3 v = (Hookpoint2.position - transform.position).normalized;
+                    transform.up = v;
+                    Obstacle();
+                }
+                else if (hit2.collider != null && hit2.collider.gameObject.tag == "Swing3")
+                {
+                    PlayerJoint.connectedAnchor = new Vector2(Hookpoint3.position.x, Hookpoint3.position.y);
+                    Vector3 v = (Hookpoint3.position - transform.position).normalized;
+                    transform.up = v;
+                    Obstacle();
+                }
+                else if (hit2.collider != null && hit2.collider.gameObject.tag == "Swing4")
+                {
+                    PlayerJoint.connectedAnchor = new Vector2(Hookpoint4.position.x, Hookpoint4.position.y);
+                    Vector3 v = (Hookpoint4.position - transform.position).normalized;
+                    transform.up = v;
+                    Obstacle();
+                }
+            }
+        }
     }
 
     void Obstacle()
     {
-        obstacle = hit2.collider.gameObject;
+        GetComponent<Rigidbody2D>().gravityScale = 2;
         obstacle.GetComponent<Rigidbody2D>().isKinematic = true;
         obstacle.transform.parent = gameObject.transform;
-        distanceJoint.enabled = true;      
+        PlayerJoint.enabled = true;      
     }
 }

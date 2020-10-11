@@ -1004,7 +1004,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &294238776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2315,7 +2315,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &676961983
 GameObject:
   m_ObjectHideFlags: 0
@@ -2561,8 +2561,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 0.6313726, g: 0.6313726, b: 0.6313726, a: 0.3137255}
-      maxColor: {r: 0.5137255, g: 0.5137255, b: 0.5137255, a: 0.39215687}
+      minColor: {r: 0.990566, g: 0.53733534, b: 0.53733534, a: 0.3137255}
+      maxColor: {r: 0.2735849, g: 0.2735849, b: 0.2735849, a: 0.39215687}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -7341,7 +7341,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &715682389
 Transform:
   m_ObjectHideFlags: 0
@@ -19479,7 +19479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runSpeed: 200
-  JumpForce: 15
+  JumpForce: 13
   isNotStop: 0
   isNotStop2: 0
   OneTouchX: 0
@@ -19490,15 +19490,23 @@ MonoBehaviour:
   TwoTouchX2: 0
   TwoTouchY: 0
   TwoTouchY2: 0
+  ThreeTouchX: 0
+  ThreeTouchX2: 0
+  ThreeTouchY: 0
+  ThreeTouchY2: 0
   intervals: 0.1
   intervals2: 0.1
   jump: 0
   isJumpButton: 0
   jump2: 0
   isJumpButton2: 0
+  jump3: 0
+  isJumpButton3: 0
   isGround: 0
   isObstacle: 0
   isTouch2: 0
+  isTouch3: 0
+  isSlide: 0
   footOffset: 0
   groundDistance: 0.5
   playerWidth: 0.24
@@ -19552,7 +19560,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 5
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
