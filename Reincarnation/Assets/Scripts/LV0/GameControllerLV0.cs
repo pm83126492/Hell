@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameControllerLV0 : MonoBehaviour
 {
+    public GameObject bloom;
     public Canvas DoorCanvas;
     public Canvas TeachUI;
     public bool IsWin;
@@ -57,6 +58,7 @@ public class GameControllerLV0 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        bloom.SetActive(false);
         player.GetComponent<MeshRenderer>().sortingOrder = 40;
         player.enabled = false;
         StartCoroutine(TurnRightMoveUI());
@@ -175,6 +177,7 @@ public class GameControllerLV0 : MonoBehaviour
 
             //解謎門動畫    
             case state.DoorCanAnim:
+                bloom.SetActive(true);
                 LightTimer += Time.deltaTime;
                 DoorCircleLightMaterial.SetFloat("_OutlineThickness", Mathf.Clamp(LightTimer / OneDuration, 0, 2));
                 break;

@@ -4565,6 +4565,7 @@ MonoBehaviour:
   isGround: 1
   isObstacle: 1
   isTouch2: 0
+  isTouch3: 0
   isSlide: 0
   footOffset: 0
   groundDistance: 0.5
