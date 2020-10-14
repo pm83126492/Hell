@@ -258,13 +258,11 @@ public class Player : MonoBehaviour
 
         if (isSlide)
         {
-            anim.SetBool("Slide", true);
             boxCollider2D.offset = new Vector2(-0.08030701f, 0.25f);
             boxCollider2D.size = new Vector2(1.270004f, 0.6733987f);
         }
         else
         {
-            anim.SetBool("Slide", false);
             boxCollider2D.offset = new Vector2(-0.08030701f, 1.668559f);
             boxCollider2D.size = new Vector2(1.270004f, 3.510725f);
         }
@@ -272,7 +270,6 @@ public class Player : MonoBehaviour
         if (rigidbody2D.velocity.x == 0)
         {
             isSlide = false;
-            anim.SetBool("Slide", false);
         }
 
         //判斷是否跳
