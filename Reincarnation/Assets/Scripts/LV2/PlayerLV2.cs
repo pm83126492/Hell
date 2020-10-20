@@ -6,7 +6,7 @@ public class PlayerLV2 : Player
 {
 
     public GameObject organIce;
-    public GameObject obstacle;
+    //public GameObject obstacle;
     public GameObject OrganCircle;
 
     public Transform OrganPosition;
@@ -78,12 +78,20 @@ public class PlayerLV2 : Player
                     {
                         anim.SetBool("Push", true);
                         Obstacle();
+                        obstacle.GetComponent<Rigidbody2D>().gravityScale = 4;
+                        if (rigidbody2D.velocity.x < 0)
+                        {
+                            anim.SetBool("Push", false);
+                            obstacle.GetComponent<Rigidbody2D>().gravityScale = 10;
+                            obstacle.GetComponent<FixedJoint2D>().enabled = false;
+                            obstacle = null;
+                        }
                     }
                     else if (hit2.collider != null && hit2.collider.gameObject.tag == "SmallobstacleLeft")
                     {
                         anim.SetBool("SquatPush", true);
                         Obstacle();
-                        obstacle.GetComponent<Rigidbody2D>().gravityScale = 3;
+                        obstacle.GetComponent<Rigidbody2D>().gravityScale = 4;
                         if (rigidbody2D.velocity.x < 0)
                         {
                             anim.SetBool("SquatPush", false);
@@ -132,7 +140,7 @@ public class PlayerLV2 : Player
             {
                 if (hit2.collider != null && hit2.collider.gameObject.tag == "obstacle")
                 {
-                    obstacle.GetComponent<Rigidbody2D>().gravityScale = 3;
+                    obstacle.GetComponent<Rigidbody2D>().gravityScale = 5;
                     if (rigidbody2D.velocity.x >= 0)
                     {
                         Obstacle();
@@ -196,28 +204,14 @@ public class PlayerLV2 : Player
             Organ();
         }
 
-        if ((OneTouchX2 > OneTouchX + 200) || (TwoTouchX2 > TwoTouchX + 200) || Input.GetKey(KeyCode.D) || OneTouchX2 + 200 < OneTouchX || TwoTouchX2 + 200 < TwoTouchX || Input.GetKey(KeyCode.A))
+        if ((OneTouchX2 > OneTouchX + 25) || (TwoTouchX2 > TwoTouchX + 25) || Input.GetKey(KeyCode.D) || OneTouchX2 + 25 < OneTouchX || TwoTouchX2 + 25 < TwoTouchX || Input.GetKey(KeyCode.A))
         {
             anim.enabled = true;
             anim.SetBool("Roll", false);
         }
     }
 
-    //冰障礙物事件
-    void Obstacle()
-    {
-        if (hit2.collider.gameObject.tag == "obstacle")
-        {
-            obstacle = hit2.collider.gameObject;
-            obstacle.GetComponent<Rigidbody2D>().gravityScale = 3;
-        }
-        else
-        {
-            obstacle = hit2.collider.transform.parent.gameObject;
-        }
-        obstacle.GetComponent<FixedJoint2D>().enabled = true;
-        obstacle.GetComponent<FixedJoint2D>().connectedBody = this.GetComponent<Rigidbody2D>();
-    }
+    
     //起重冰事件
     void Organ()
     {

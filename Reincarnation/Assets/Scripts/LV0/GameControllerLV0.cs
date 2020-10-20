@@ -5,11 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class GameControllerLV0 : MonoBehaviour
 {
-    public GameObject bloom;
     public Canvas DoorCanvas;
     public Canvas TeachUI;
     public bool IsWin;
     public bool IsWin02;
+    bool isUseObjUI;
     public Player player;
     public BlackFade blackFade;
 
@@ -19,6 +19,7 @@ public class GameControllerLV0 : MonoBehaviour
     public Material DoorCircleLightMaterial;
     public Material DoorCrackHDR;
     public Material DoorFlowerDissolveMaterial;
+    private float TeachUIStopTime;
     private float ColorAmount;
     private float LightTimer;
     private float DissolveTimer;
@@ -33,6 +34,7 @@ public class GameControllerLV0 : MonoBehaviour
     public Animator BlockFadeAnim;
     public Animation Dooranim;
 
+    public GameObject bloom;
     public GameObject DoorEffect;
     public GameObject Door;
     public GameObject DoorFlower;
@@ -40,14 +42,19 @@ public class GameControllerLV0 : MonoBehaviour
     public GameObject RightMoveUI;
     public GameObject LeftMoveUI;
     public GameObject JumpMoveUI;
+    public GameObject SlideMoveUI;
+    public GameObject UseObjUI;
     public BoxCollider2D DoorCollider;
     public BoxCollider2D DoorWinCollider;
     public enum state
     {
         NONE,
+        STOP,
         RightMove,
         LeftMove,
         JumpMove,
+        SlideMove,
+        UseObj,
         DoorLightFadeIn,
         DoorCanAnim,
         DoorDissolve,
@@ -67,7 +74,7 @@ public class GameControllerLV0 : MonoBehaviour
         DoorFlower.SetActive(true);
         DoorOpen.SetActive(false);
         GameState = state.NONE;
-        IsWin = IsWin02 = false;
+        IsWin = IsWin02 = isUseObjUI = false;
         DoorCanvasGroup.alpha = 0;
         DoorCanvas.enabled=false;
         TeachUI.enabled = false;
@@ -84,7 +91,7 @@ public class GameControllerLV0 : MonoBehaviour
     {
         DoorState();
         //解謎成功
-        if (IsWin ==  true&& IsWin02 ==true)
+        if (IsWin == true && IsWin02 == true)
         {
             GameState = state.DoorWin;
         }
@@ -92,6 +99,15 @@ public class GameControllerLV0 : MonoBehaviour
         if (blackFade.CanChangeScene)
         {
             SceneManager.LoadScene("LV2");
+        }
+
+        if (player.isObstacle == true&& !isUseObjUI)
+        {
+            if(player.hit2.collider.gameObject.tag == "obstacle")
+            {
+                GameState = state.UseObj;
+                isUseObjUI = true;
+            }
         }
     }
 
@@ -126,6 +142,16 @@ public class GameControllerLV0 : MonoBehaviour
     {
         switch (GameState)
         {
+            case state.STOP:
+                TeachUIStopTime += Time.deltaTime;
+                if (TeachUIStopTime >= 2f)
+                {
+                    player.anim.SetFloat("WalkSpeed", 0);
+                    player.OneTouchX = player.OneTouchX = player.OneTouchX2 = player.TwoTouchX = player.TwoTouchX2 = player.TwoTouchY = player.TwoTouchY2 = 0;
+                    player.enabled = false;
+                }
+                break;
+
             //RightMove
             case state.RightMove:
                 
@@ -141,7 +167,8 @@ public class GameControllerLV0 : MonoBehaviour
 
             //LeftMove
             case state.LeftMove:
-                //player.enabled = true;
+                TeachUIStopTime = 0;
+                player.enabled = true;
                 TeachUI.enabled = true;
                 LeftMoveUI.SetActive(true);
                 CanNotMoveTime += Time.deltaTime;
@@ -153,9 +180,35 @@ public class GameControllerLV0 : MonoBehaviour
 
             //JumpMove
             case state.JumpMove:
-                //player.enabled = true;
+                TeachUIStopTime = 0;
+                player.enabled = true;
                 TeachUI.enabled = true;
                 JumpMoveUI.SetActive(true);
+                CanNotMoveTime += Time.deltaTime;
+                if (CanNotMoveTime >= 1)
+                {
+                    MobileTouch();
+                }
+                break;
+
+            //SlideMove
+            case state.SlideMove:
+                TeachUIStopTime = 0;
+                player.enabled = true;
+                TeachUI.enabled = true;
+                SlideMoveUI.SetActive(true);
+                CanNotMoveTime += Time.deltaTime;
+                if (CanNotMoveTime >= 1)
+                {
+                    MobileTouch();
+                }
+                break;
+
+            //UseObj
+            case state.UseObj:
+                //player.enabled = true;
+                TeachUI.enabled = true;
+                UseObjUI.SetActive(true);
                 CanNotMoveTime += Time.deltaTime;
                 if (CanNotMoveTime >= 1)
                 {
@@ -248,23 +301,36 @@ public class GameControllerLV0 : MonoBehaviour
             {
                 if (GameState == state.RightMove)
                 {
-                    GameState = state.NONE;
                     TeachUI.enabled = false;
                     RightMoveUI.SetActive(false);
                     StartCoroutine(TurnLeftMoveUI());
+                    GameState = state.STOP;
                 }
                 else if (GameState == state.LeftMove)
                 {
-                    GameState = state.NONE;
                     TeachUI.enabled = false;
                     LeftMoveUI.SetActive(false);
                     StartCoroutine(TurnJumpMoveUI());
+                    GameState = state.STOP;
                 }
                 else if (GameState == state.JumpMove)
                 {
-                    GameState = state.NONE;
                     TeachUI.enabled = false;
                     JumpMoveUI.SetActive(false);
+                    StartCoroutine(TurnSlideMoveUI());
+                    GameState = state.STOP;
+                }
+                else if (GameState == state.SlideMove)
+                {
+                    TeachUI.enabled = false;
+                    SlideMoveUI.SetActive(false);
+                    GameState = state.NONE;
+                }
+                else if (GameState == state.UseObj)
+                {
+                    GameState = state.NONE;
+                    TeachUI.enabled = false;
+                    UseObjUI.SetActive(false);
                 }
                 CanNotMoveTime = 0;
             }
@@ -273,7 +339,7 @@ public class GameControllerLV0 : MonoBehaviour
 
     IEnumerator TurnRightMoveUI()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(4);
       //  PlayerAnim.SetTrigger("idle");
       //  player.enabled = false;
         GameState = state.RightMove;
@@ -281,7 +347,7 @@ public class GameControllerLV0 : MonoBehaviour
 
     IEnumerator TurnLeftMoveUI()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(4);
       //  PlayerAnim.SetTrigger("idle");
       //  player.enabled = false;
         GameState = state.LeftMove;
@@ -289,10 +355,18 @@ public class GameControllerLV0 : MonoBehaviour
 
     IEnumerator TurnJumpMoveUI()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(4);
        // PlayerAnim.SetTrigger("idle");
        // player.enabled = false;
         GameState = state.JumpMove;
+    }
+
+    IEnumerator TurnSlideMoveUI()
+    {
+        yield return new WaitForSeconds(4);
+        // PlayerAnim.SetTrigger("idle");
+        // player.enabled = false;
+        GameState = state.SlideMove;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

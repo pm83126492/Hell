@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    protected Rigidbody2D rigidbody2D;
+    public Rigidbody2D rigidbody2D;
     protected BoxCollider2D boxCollider2D;
     protected Transform player;
-    protected Animator anim;
+    public Animator anim;
     public float runSpeed = 250f;
     public float JumpForce = 13f;
     private float horizontalMove;
@@ -59,10 +59,11 @@ public class Player : MonoBehaviour
     public LayerMask obstacleLayer;
    
     public RaycastHit2D hit2;
+
+    public GameObject obstacle;
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<MeshRenderer>().sortingOrder = 40;
         player = GetComponent<Transform>();
         rigidbody2D = GetComponent<Rigidbody2D>();
         boxCollider2D = GetComponent<BoxCollider2D>();
@@ -95,6 +96,37 @@ public class Player : MonoBehaviour
             boxCollider2D.offset = new Vector2(-0.08030701f, 1.668559f);
             boxCollider2D.size = new Vector2(1.270004f, 3.510725f);
         }
+
+        if (Input.GetKey(KeyCode.E))
+        {
+            if (isObstacle)
+            {
+                if (hit2.collider != null && hit2.collider.gameObject.tag == "obstacle")
+                {
+                    Obstacle();
+                    obstacle.GetComponent<Rigidbody2D>().gravityScale = 3;
+                    if (rigidbody2D.velocity.x < 0)
+                    {
+                        anim.SetBool("Push", false);
+                        obstacle.GetComponent<Rigidbody2D>().gravityScale = 10;
+                        obstacle.GetComponent<FixedJoint2D>().enabled = false;
+                        obstacle = null;
+                    }
+                    anim.SetBool("Push", true);
+                }
+            }
+        }
+        else if (Input.GetKeyUp(KeyCode.E))
+        {
+            if (obstacle != null)
+            {
+                anim.SetBool("Push", false);
+                obstacle.GetComponent<Rigidbody2D>().gravityScale = 10;
+                obstacle.GetComponent<FixedJoint2D>().enabled = false;
+                obstacle = null;
+            }
+        }
+
 
         //判斷到地面上停止
         if (isNotStop && isGround)
@@ -145,7 +177,7 @@ public class Player : MonoBehaviour
                 if (!isJumpButton)
                 {
                     OneTouchY2 = touch.position.y;
-                    if (OneTouchY + 150 < OneTouchY2)
+                    if (OneTouchY + 50 < OneTouchY2)
                     {
                         isJumpButton = true;
                     }
@@ -158,7 +190,7 @@ public class Player : MonoBehaviour
                 intervals = 0.1f;
                 if (isGround)
                 {
-                    OneTouchX = OneTouchX2 = TwoTouchX = TwoTouchX2 = TwoTouchY = TwoTouchY2 = 0;
+                    OneTouchX = OneTouchX2 = TwoTouchX = TwoTouchX2 = TwoTouchY = TwoTouchY2 = OneTouchY = OneTouchY2 = 0;
                 }
                 else if (!isGround)
                 {
@@ -169,6 +201,15 @@ public class Player : MonoBehaviour
                 if (isJumpButton2)
                 {
                     isJumpButton2 = false;
+                }
+
+                if (obstacle != null)
+                {
+                    anim.SetBool("Push", false);
+                    anim.SetBool("SquatPush", false);
+                    obstacle.GetComponent<Rigidbody2D>().gravityScale = 10;
+                    obstacle.GetComponent<FixedJoint2D>().enabled = false;
+                    obstacle = null;
                 }
             }
         }
@@ -197,7 +238,7 @@ public class Player : MonoBehaviour
                 if (!isJumpButton2)
                 {
                     TwoTouchY2 = touch2.position.y;
-                    if (TwoTouchY + 150 < TwoTouchY2)
+                    if (TwoTouchY + 50 < TwoTouchY2)
                     {
                         isJumpButton2 = true;
                     }
@@ -208,7 +249,7 @@ public class Player : MonoBehaviour
             {
                 if (isGround)
                 {
-                    TwoTouchX = TwoTouchX2 = TwoTouchY = TwoTouchY2 = 0;
+                    OneTouchX = OneTouchX2 = TwoTouchX = TwoTouchX2 = TwoTouchY = TwoTouchY2 = 0;
                 }
                 else if (!isGround)
                 {
@@ -219,7 +260,36 @@ public class Player : MonoBehaviour
 
                 intervals2 = 0.1f;
                 isJumpButton2 = false;
+
+                if (obstacle != null)
+                {
+                    anim.SetBool("Push", false);
+                    anim.SetBool("SquatPush", false);
+                    obstacle.GetComponent<Rigidbody2D>().gravityScale = 10;
+                    obstacle.GetComponent<FixedJoint2D>().enabled = false;
+                    obstacle = null;
+                }
             }
+            if (touch2.phase == TouchPhase.Stationary)
+            {
+                if (isObstacle)
+                {
+                    if (hit2.collider != null && hit2.collider.gameObject.tag == "obstacle" && rigidbody2D.velocity.x > 0)
+                    {
+                        anim.SetBool("Push", true);
+                        Obstacle();
+                        obstacle.GetComponent<Rigidbody2D>().gravityScale = 4;
+                        if (rigidbody2D.velocity.x < 0)
+                        {
+                            anim.SetBool("Push", false);
+                            obstacle.GetComponent<Rigidbody2D>().gravityScale = 10;
+                            obstacle.GetComponent<FixedJoint2D>().enabled = false;
+                            obstacle = null;
+                        }
+                    }
+                }
+            }
+
 
             if (touch1.phase == TouchPhase.Began)
             {
@@ -232,7 +302,7 @@ public class Player : MonoBehaviour
                 if (!isJumpButton3)
                 {
                     ThreeTouchY2 = touch1.position.y;
-                    if (ThreeTouchY + 150 < ThreeTouchY2)
+                    if (ThreeTouchY + 50 < ThreeTouchY2)
                     {
                         isJumpButton3 = true;
                     }
@@ -246,23 +316,24 @@ public class Player : MonoBehaviour
                 }
                 isJumpButton3 = false;
                 isSlide = false;
-                anim.SetBool("Slide", false);
                 isTouch3 = false;
             }
         }
 
-        if ((TwoTouchY > TwoTouchY2 + 150|| ThreeTouchY > ThreeTouchY2 + 150) && rigidbody2D.velocity.x != 0)
+        if ((TwoTouchY > TwoTouchY2 + 50|| ThreeTouchY > ThreeTouchY2 + 50) && rigidbody2D.velocity.x != 0)
         {
             isSlide = true;
         }
 
         if (isSlide)
         {
+            anim.SetBool("Slide", true);
             boxCollider2D.offset = new Vector2(-0.08030701f, 0.25f);
             boxCollider2D.size = new Vector2(1.270004f, 0.6733987f);
         }
-        else
+        else if(!isSlide)
         {
+            anim.SetBool("Slide", false);
             boxCollider2D.offset = new Vector2(-0.08030701f, 1.668559f);
             boxCollider2D.size = new Vector2(1.270004f, 3.510725f);
         }
@@ -273,7 +344,7 @@ public class Player : MonoBehaviour
         }
 
         //判斷是否跳
-        if ((OneTouchY + 150 < OneTouchY2 || TwoTouchY + 150 < TwoTouchY2||ThreeTouchY+150<ThreeTouchY2) && !jump)
+        if ((OneTouchY + 50 < OneTouchY2 || TwoTouchY + 50 < TwoTouchY2||ThreeTouchY+50<ThreeTouchY2) && !jump)
         {
             jump = true;
         }
@@ -287,21 +358,14 @@ public class Player : MonoBehaviour
             rigidbody2D.velocity = new Vector2(0 * Time.deltaTime, rigidbody2D.velocity.y);
         }
         //右移動
-        if (((OneTouchX2 > OneTouchX + 200) || (TwoTouchX2 > TwoTouchX + 200) || Input.GetKey(KeyCode.D))&&!isObstacle)
+        if ((OneTouchX2 > OneTouchX + 25) || (TwoTouchX2 > TwoTouchX + 25) || Input.GetKey(KeyCode.D))
         {
             
             rigidbody2D.velocity = new Vector2(runSpeed * Time.deltaTime, rigidbody2D.velocity.y);
             transform.rotation = new Quaternion(0, 0, 0, 0);
         }
-        //右移動
-        if (((OneTouchX2 > OneTouchX + 200) || (TwoTouchX2 > TwoTouchX + 200) || Input.GetKey(KeyCode.D))&&isObstacle)
-        {
-
-            rigidbody2D.velocity = new Vector2(200 * Time.deltaTime, rigidbody2D.velocity.y);
-            transform.rotation = new Quaternion(0, 0, 0, 0);
-        }
         //左移動
-        if (OneTouchX2 + 200 < OneTouchX || TwoTouchX2 + 200 < TwoTouchX || Input.GetKey(KeyCode.A))
+        if (OneTouchX2 + 25 < OneTouchX || TwoTouchX2 + 25 < TwoTouchX || Input.GetKey(KeyCode.A))
         {
             
             rigidbody2D.velocity = new Vector2(-runSpeed * Time.deltaTime, rigidbody2D.velocity.y);
@@ -371,4 +435,20 @@ public class Player : MonoBehaviour
         }
     }
 
+
+    public void Obstacle()
+    {
+        if (hit2.collider.gameObject.tag == "obstacle")
+        {
+            obstacle = hit2.collider.gameObject;
+            obstacle.GetComponent<Rigidbody2D>().gravityScale = 3;
+        }
+        else
+        {
+            obstacle = hit2.collider.transform.parent.gameObject;
+        }
+        
+        obstacle.GetComponent<FixedJoint2D>().enabled = true;
+        obstacle.GetComponent<FixedJoint2D>().connectedBody = this.GetComponent<Rigidbody2D>();
+    }
 }
